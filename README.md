@@ -48,7 +48,7 @@ First, let's get an Express server up and running. [Express](https://expressjs.c
     * End the request-response cycle.
     * Call the next middleware in the stack.
 
-    ![Screenshot](screenshots/middleware.jpg)
+    ![Screenshot](screenshots/middleware.png)
 
    - `body-parser`: [Documentation](https://www.npmjs.com/package/body-parser). Parses the HTTP request body, making it easier to access `request.body` in routes.
 
