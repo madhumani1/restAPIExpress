@@ -1,0 +1,23 @@
+{
+  "name": "restapiexpress",
+  "version": "1.0.0",
+  "description": "restAPI using express",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/madhumani1/restAPIExpress.git"
+  },
+  "author": "Madhu Mani",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/madhumani1/restAPIExpress/issues"
+  },
+  "homepage": "https://github.com/madhumani1/restAPIExpress#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
