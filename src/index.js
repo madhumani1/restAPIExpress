@@ -1,5 +1,5 @@
 const data = require('../data');
-const port = process.env.PORT  || 4002;
+const port = process.env.PORT  || 4001;
 
 /**
  * Like http, express is used for CRUD operations on given URLs.
@@ -19,7 +19,8 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json()).use(cors());
 
 app.get('/', (req,resp) => resp.send('Hello World'));
-app.get('/api/v1/doctors/:id',(req,res) => {
+app.get('/api/v1/doctors',(req,res) => res.json(data.doctors));
+app.get('/api/v1/doctor/:id',(req,res) => {
     const id = parseInt(req.params.id);
     if(isNaN(req.params.id))    {
         return res.status(400).json({error: "Invalid Id."});
@@ -31,7 +32,7 @@ app.get('/api/v1/doctors/:id',(req,res) => {
     return res.json(doctor);
 });
 
-app.post('/api/v1/get', (req,res) => {
+app.post('/api/v1/doctor', (req,res) => {
     if(!req.body.name)  {
         return res.status(400).json({error: 'Doctor needs a new Parameter.'});
     }
@@ -44,56 +45,90 @@ app.post('/api/v1/get', (req,res) => {
 
 });
 
-// Visits
-app.get("/api/v1/visits", (req, res) => {
-  console.log(req.query);
-  return res.json(data.visits);
+app.get('/api/v1/patients',(req,res) => res.json(data.patients));
+app.get('/api/v1/patient/:id',(req,res) => {
+    const id = parseInt(req.params.id);
+    if(isNaN(req.params.id))    {
+        return res.status(400).json({error: "Invalid Id."});
+    }
+    const patient = data.patients.find((patient) => patient.id==id);
+    if(!patient)    {
+        return res.status(404).json({error: "Patient not found."});
+    }
+    return res.json(patient);
 });
 
-app.get("/api/v1/visits", (req, res) => {
-  const { doctorid, patientid } = req.query;
+app.post('/api/v1/patient', (req,res) => {
+    if(!req.body.name)  {
+        return res.status(400).json({error: 'Patient needs a new Parameter.'});
+    }
 
-  const isInvalidId = (id) => {
-    return Number.isNaN(parseInt(doctorid)) || Number.isNaN(parseInt(patientid));
+    const nextId = data.patients.length+1;
+    const patient = {id: nextId, name: req.body.name};
+
+    data.patients.push(patient);
+    res.status(201).json(patient);   // 201 status code means resource created
+
+});
+
+// Visits
+/*app.get("/api/v1/visits", (req, res) => {
+  console.log(req.query);
+  return res.json(data.visits);
+});*/
+
+app.get("/api/v1/visits", (req, res) => {
+  const { doctorId, patientId } = req.query;
+
+  //console.log('doctorId: ',doctorId);
+  //console.log('patientId: ',patientId);
+
+  /*const isInvalidId = (id) => {
+    return Number.isNaN(parseInt(doctorId)) || Number.isNaN(parseInt(patientId));
   }
 
   if (isInvalidId(req.params.id)) {
     return res.status(400).json({ error: "Invalid doctor or patient id." });
-  }
+  }*/
 
   let visits = [];
+  //res.json(data.visits);
 
-  if (doctorid && patientid) {
+  if (doctorId && patientId) {
     visits = data.visits.filter(
       (visit) =>
-        visit.doctorid === parseInt(doctorid, 10) &&
-        visit.patientid === parseInt(patientid, 10)
+        visit.doctorId === parseInt(doctorId, 10) &&
+        visit.patientId === parseInt(patientId, 10)
     );
-  } else if (doctorid) {
+    //console.log('visits: ',visits);
+  } else if (doctorId) {
     visits = data.visits.filter(
-      (visit) => visit.doctorid === parseInt(doctorid, 10)
+      (visit) => visit.doctorId === parseInt(doctorId, 10)
     );
-  } else if (patientid) {
+  } else if (patientId) {
     visits = data.visits.filter(
-      (visit) => visit.patientid === parseInt(patientid, 10)
+      (visit) => visit.patientId === parseInt(patientId, 10)
     );
   } else {
-    visits = data.visits;
+      console.log('I am here');
+    //visits = data.visits;
+    visits = res.json(data.visits);
+    return (res.json(data.visits));
   }
 
-  console.log(visits.filter(
+  console.log(visits);
+  return res.json(visits);
+  /*console.log(visits.filter(
     (visit) =>
-      visit.doctorid === parseInt(doctorid, 10) &&
-      visit.patientid === parseInt(patientid, 10)
+      visit.doctorId === parseInt(doctorId, 10) &&
+      visit.patientId === parseInt(patientId, 10)
   ));
   return res.json(visits.filter(
     (visit) =>
-      visit.doctorid === parseInt(doctorid, 10) &&
-      visit.patientid === parseInt(patientid, 10)
-  ));
+      visit.doctorId === parseInt(doctorId, 10) &&
+      visit.patientId === parseInt(patientId, 10)
+  ));*/
 });
-
-
 
 app.listen(port, () => {
     console.log(`listening to port ${port}`);

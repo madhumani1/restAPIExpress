@@ -54,6 +54,11 @@ const data = {
         doctorId: 4,
         patientId: 1,
         date: 'Feb 12, 2020'
+    },
+    {
+        doctorId: 1,
+        patientId: 1,
+        date: 'Feb 12, 2020'
     }, ]
 };
 
