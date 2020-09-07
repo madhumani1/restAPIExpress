@@ -44,6 +44,56 @@ app.post('/api/v1/get', (req,res) => {
 
 });
 
+// Visits
+app.get("/api/v1/visits", (req, res) => {
+  console.log(req.query);
+  return res.json(data.visits);
+});
+
+app.get("/api/v1/visits", (req, res) => {
+  const { doctorid, patientid } = req.query;
+
+  const isInvalidId = (id) => {
+    return Number.isNaN(parseInt(doctorid)) || Number.isNaN(parseInt(patientid));
+  }
+
+  if (isInvalidId(req.params.id)) {
+    return res.status(400).json({ error: "Invalid doctor or patient id." });
+  }
+
+  let visits = [];
+
+  if (doctorid && patientid) {
+    visits = data.visits.filter(
+      (visit) =>
+        visit.doctorid === parseInt(doctorid, 10) &&
+        visit.patientid === parseInt(patientid, 10)
+    );
+  } else if (doctorid) {
+    visits = data.visits.filter(
+      (visit) => visit.doctorid === parseInt(doctorid, 10)
+    );
+  } else if (patientid) {
+    visits = data.visits.filter(
+      (visit) => visit.patientid === parseInt(patientid, 10)
+    );
+  } else {
+    visits = data.visits;
+  }
+
+  console.log(visits.filter(
+    (visit) =>
+      visit.doctorid === parseInt(doctorid, 10) &&
+      visit.patientid === parseInt(patientid, 10)
+  ));
+  return res.json(visits.filter(
+    (visit) =>
+      visit.doctorid === parseInt(doctorid, 10) &&
+      visit.patientid === parseInt(patientid, 10)
+  ));
+});
+
+
 
 app.listen(port, () => {
     console.log(`listening to port ${port}`);
