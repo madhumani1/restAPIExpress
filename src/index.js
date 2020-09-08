@@ -130,6 +130,43 @@ app.get("/api/v1/visits", (req, res) => {
   ));*/
 });
 
+app.post('/api/v1/visits', (req,res) => {
+    if(isNaN(req.body.patientId))    {
+        return res.status(400).json({error: "Invalid PatientId."});
+    }
+    if(isNaN(req.body.doctorId))    {
+        return res.status(400).json({error: "Invalid DoctorId."});
+    }
+
+    const patientId = parseInt(req.body.patientId);
+    const doctorId = parseInt(req.body.doctorId);
+
+    const patient = data.patients.find((patient) => patient.id==patientId);
+    if(!patient)    {
+        return res.status(404).json({error: "Patient not found."});
+    }
+    const doctor = data.doctors.find((doctor) => doctor.id==doctorId);
+    if(!doctor)    {
+        return res.status(404).json({error: "Doctor not found."});
+    }
+
+    if(!req.body.date)  {
+        return res.status(400).json({error: 'Date Of Visit required.'});
+    } else if(!ValidateDate(req.body.date)){
+        return res.status(400).json({error: 'Invalid Date Format, try MMM DD, YYYY'});
+    }
+
+    const visit = {doctorId: doctorId, patientId: patientId, date: req.body.date};
+    data.visits.push(visit);
+    res.status(201).json(visit);   // 201 status code means resource created
+
+});
+
 app.listen(port, () => {
     console.log(`listening to port ${port}`);
 });
+
+function ValidateDate(dtValue) {
+    var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC)\\s([0]?[1-9]|[1-2]\\d|3[0-1]),\\s[1-2]\\d{3}$", 'i');
+    return dtRegex.test(dtValue);
+}
