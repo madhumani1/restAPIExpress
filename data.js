@@ -34,7 +34,11 @@ const data = {
     {
         id: 5,
         name: 'Sanjay Dutt'
-    } ],
+    },{
+        id: 6,
+        name: 'Jaya Prakash Reddy'
+    },
+    ],
     visits : [ {
         doctorId: 1,
         patientId: 3,
@@ -59,7 +63,32 @@ const data = {
         doctorId: 1,
         patientId: 1,
         date: 'Feb 12, 2020'
-    }, ]
+    },
+    {
+        doctorId: 1,
+        patientId: 6,
+        date: 'Mar 6, 2020'
+    },
+    {
+        doctorId: 1,
+        patientId: 5,
+        date: 'Mar 17, 2020'
+    },
+    {
+        doctorId: 2,
+        patientId: 5,
+        date: 'Apr 6, 2020'
+    },
+    {
+        doctorId: 3,
+        patientId: 5,
+        date: 'Apr 24, 2020'
+    },
+    {
+        doctorId: 4,
+        patientId: 6,
+        date: 'Feb 12, 2020'
+    },]
 };
 
 module.exports = data;

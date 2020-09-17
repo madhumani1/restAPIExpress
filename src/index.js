@@ -22,6 +22,7 @@ app.get('/', (req,resp) => resp.send('Hello World'));
 app.get('/api/v1/doctors',(req,res) => res.json(data.doctors));
 app.get('/api/v1/doctor/:id',(req,res) => {
     const id = parseInt(req.params.id);
+    console.log('id: ',id);
     if(isNaN(req.params.id))    {
         return res.status(400).json({error: "Invalid Id."});
     }
@@ -77,19 +78,56 @@ app.post('/api/v1/patient', (req,res) => {
   return res.json(data.visits);
 });*/
 
+app.get("/api/v1/visit/doctor/:doctorId", (req, res) => {
+    const doctorId = parseInt(req.params.doctorId,10);
+    console.log('doctorId: ',doctorId);
+    if(isNaN(req.params.doctorId))    {
+        return res.status(400).json({error: "Invalid Id."});
+    }
+    let visits = data.visits.sort((a,b) => (a.doctorId>b.doctorId)?1:((b.doctorId>a.doctorId)? 1:0))
+    .filter((visit) => visit.doctorId === parseInt(doctorId, 10));
+
+    console.log(visits);
+    return res.json(visits);
+});
+
+app.get("/api/v1/visit/patient/:patientId", (req, res) => {
+    const patientId = parseInt(req.params.patientId,10);
+    console.log('patientId: ',patientId);
+    if(isNaN(req.params.patientId))    {
+        return res.status(400).json({error: "Invalid Id."});
+    }
+    let visits = data.visits.sort((a,b) => (a.patientId>b.patientId)?1:((b.patientId>a.patientId)? 1:0))
+    .filter((visit) => visit.patientId === parseInt(patientId, 10));
+
+    console.log(visits);
+    return res.json(visits);
+});
+
 app.get("/api/v1/visits", (req, res) => {
   const { doctorId, patientId } = req.query;
 
   //console.log('doctorId: ',doctorId);
   //console.log('patientId: ',patientId);
 
-  /*const isInvalidId = (id) => {
-    return Number.isNaN(parseInt(doctorId)) || Number.isNaN(parseInt(patientId));
+  const isInvalidId = (id) => {
+    if(doctorId != null) {
+        if(isNaN(doctorId)) {
+            return true;
+        }
+    }
+    if(patientId != null) {
+        if(isNaN(patientId)) {
+            return true;
+        }
+    }
+    return false;
+    //return id!= null && !Number.isNaN(parseInt(id));
   }
 
   if (isInvalidId(req.params.id)) {
     return res.status(400).json({ error: "Invalid doctor or patient id." });
-  }*/
+  }
 
   let visits = [];
   //res.json(data.visits);
@@ -102,15 +140,21 @@ app.get("/api/v1/visits", (req, res) => {
     );
     //console.log('visits: ',visits);
   } else if (doctorId) {
-    visits = data.visits.filter(
+    /*visits = data.visits.filter(
       (visit) => visit.doctorId === parseInt(doctorId, 10)
-    );
+    );*/
+    visits = data.visits.sort((a,b) => (a.doctorId>b.doctorId)?1:((b.doctorId>a.doctorId)? 1:0))
+            .filter((visit) => visit.doctorId === parseInt(doctorId, 10));
+
   } else if (patientId) {
-    visits = data.visits.filter(
+    // the below is not working because the array is not sorted based on patientid
+    /*visits = data.visits.filter(
       (visit) => visit.patientId === parseInt(patientId, 10)
-    );
+    );*/
+    visits = data.visits.sort((a,b) => (a.patientId>b.patientId)?1:((b.patientId>a.patientId)? 1:0))
+            .filter((visit) => visit.patientId === parseInt(patientId, 10));
   } else {
-      console.log('I am here');
+      //console.log('I am here');
     //visits = data.visits;
     visits = res.json(data.visits);
     return (res.json(data.visits));
@@ -118,16 +162,6 @@ app.get("/api/v1/visits", (req, res) => {
 
   console.log(visits);
   return res.json(visits);
-  /*console.log(visits.filter(
-    (visit) =>
-      visit.doctorId === parseInt(doctorId, 10) &&
-      visit.patientId === parseInt(patientId, 10)
-  ));
-  return res.json(visits.filter(
-    (visit) =>
-      visit.doctorId === parseInt(doctorId, 10) &&
-      visit.patientId === parseInt(patientId, 10)
-  ));*/
 });
 
 app.listen(port, () => {

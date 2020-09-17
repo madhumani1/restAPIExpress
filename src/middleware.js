@@ -38,7 +38,7 @@ app.use(logMiddleware);
       * that we defined and if we restart our server
       * and navigate to any of the pages in our app
       * you will notice that in the console the message
-      * Inside Middleware appears. This is great, but
+      * Inside Middleware appears. This is OK, but
       * there is a slight problem. The application now
       * loads forever and never actually finishes the
       * request. This is because in our middleware we
