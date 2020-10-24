@@ -11,9 +11,14 @@ const port = process.env.PORT  || 4001;
 
 const express = require('express');
 const app = express();
-// let's add mniddleware - cors and body-parser
+// let's add middleware - cors and body-parser
 const cors = require('cors');
 const bodyParser = require('body-parser');
+
+//swagger
+const swaggerUI = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+app.use("/api/v1/docs",swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // try commenting out and see differene
 app.use(bodyParser.json()).use(cors());
@@ -33,7 +38,7 @@ app.get('/api/v1/doctor/:id',(req,res) => {
     return res.json(doctor);
 });
 
-app.post('/api/v1/doctor', (req,res) => {
+app.post('/api/v1/doctors', (req,res) => {
     if(!req.body.name)  {
         return res.status(400).json({error: 'Doctor needs a new Parameter.'});
     }
@@ -59,7 +64,7 @@ app.get('/api/v1/patient/:id',(req,res) => {
     return res.json(patient);
 });
 
-app.post('/api/v1/patient', (req,res) => {
+app.post('/api/v1/patients', (req,res) => {
     if(!req.body.name)  {
         return res.status(400).json({error: 'Patient needs a new Parameter.'});
     }
@@ -167,3 +172,31 @@ app.get("/api/v1/visits", (req, res) => {
 app.listen(port, () => {
     console.log(`listening to port ${port}`);
 });
+
+//Swagger
+const expressSwaggerGenerator = require('express-swagger-generator');
+const host = `localhost:${port}`;
+console.log('host: ',host);
+const basePath = '/'; // The forward slash is important!
+
+// Options for the Swagger generator tool
+const options = {
+      // The root document object for the API specification
+      // More info here: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#schema
+      swaggerDefinition: {
+        info: {
+          title: "Health Insurance API",
+          description: "This is Web service for patients, doctors and visits.",
+          version: "1.0.0",
+        },
+        host: host,
+        basePath: basePath,
+        produces: ["application/json"],
+        schemes: ["http", "https"],
+      },
+      basedir: __dirname, // Absolute path to the app
+      files: ["./routes/**/*.js"], // Relative path to the API routes folder to find the documentation
+    };
+
+    // Initialize express-swagger-generator and inject it into the express app
+    expressSwaggerGenerator(app)(options);
