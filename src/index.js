@@ -162,7 +162,7 @@ app.get("/api/v1/visits", (req, res) => {
       //console.log('I am here');
     //visits = data.visits;
     visits = res.json(data.visits);
-    return (res.json(data.visits));
+    return (visits);
   }
 
   console.log(visits);
