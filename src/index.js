@@ -20,7 +20,7 @@ const swaggerUI = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 app.use("/api/v1/docs",swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-// try commenting out and see differene
+// try commenting out and see difference. It will give you CORS error
 app.use(bodyParser.json()).use(cors());
 
 app.get('/', (req,resp) => resp.send('Hello World'));
