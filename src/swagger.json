@@ -1,217 +1,338 @@
 {
-  "swagger": "2.0",
-  "info": {
-    "title": "Doctors Scheduler",
-    "version": "1.0.0"
-  },
-  "schemes": [
-    "http",
-    "https"
-  ],
-  "basePath": "/api/v1",
-  "paths": {
-    "/doctors": {
-      "get": {
-        "summary": "Get all doctors",
-        "description": "Retrieves the list of doctors",
-        "responses": {
-          "200": {
-            "description": "The list of doctors",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Doctor"
-              }
-            }
-          }
+    "swagger": "2.0",
+    "info": {
+        "title": "Doctors Scheduler",
+        "version": "1.0.0",
+        "description": "This is a sample Doctor Scheduler. I am trying to learn how to create a REST API using Express. We can create Swgger by (a). Write the API, create a swagger.json file that will be used by Swagger UI. (b) Write the API, add documentation in the code to auto-generate the Swagger docs and UI. You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization filters.",
+        "contact": {
+            "email": "madhumani1@gmail.com"
         }
-      },
-      "post": {
-        "summary": "Create a doctor",
-        "parameters": [
-          {
-            "name": "doctor",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/NewDoctor"
-            }
-          }
-        ],
-        "description": "Creates a single doctor",
-        "consumes": [
-          "application/json"
-        ],
-        "responses": {
-          "201": {
-            "description": "The newly created doctor",
-            "schema": {
-              "$ref": "#/definitions/Doctor"
-            }
-          }
-        }
-      }
     },
-    "/doctor/{id}": {
-      "get": {
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "integer",
-            "required": true
-          }
-        ],
-        "summary": "Get single doctor",
-        "description": "Get doctor by id",
-        "responses": {
-          "200": {
-            "description": "Single doctor",
-            "schema": {
-              "$ref": "#/definitions/Doctor"
-            }
-          }
-        }
-      }
-    },
-    "/patients": {
-        "get": {
-          "summary": "Get all patients",
-          "description": "Retrieves the list of patients",
-          "responses": {
-            "200": {
-              "description": "The list of patients",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Patient"
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "basePath": "/api/v1",
+    "paths": {
+        "/doctors": {
+            "get": {
+                "summary": "Get all doctors",
+                "description": "Retrieves the list of doctors",
+                "responses": {
+                    "200": {
+                        "description": "The list of doctors",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Doctor"
+                            }
+                        }
+                    }
                 }
-              }
             }
-          }
         },
-        "post": {
-          "summary": "Create a patient",
-          "parameters": [
-            {
-              "name": "patient",
-              "in": "body",
-              "schema": {
-                "$ref": "#/definitions/NewPatient"
-              }
-            }
-          ],
-          "description": "Creates a single patient",
-          "consumes": [
-            "application/json"
-          ],
-          "responses": {
-            "201": {
-              "description": "The newly created patients",
-              "schema": {
-                "$ref": "#/definitions/Patient"
-              }
-            }
-          }
-        }
-      },
-      "/patient/{id}": {
-        "get": {
-            "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "type": "integer",
-              "required": true
-            }
-            ],
-            "summary": "Get single patient",
-            "description": "Get patient by id",
-            "responses": {
-            "200": {
-                "description": "Single patient",
-                "schema": {
-                    "$ref": "#/definitions/Patient"
+        "/doctor": {
+            "post": {
+                "summary": "Create a doctor",
+                "parameters": [
+                    {
+                        "name": "doctor",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/NewDoctor"
+                        }
+                    }
+                ],
+                "description": "Creates a single doctor",
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The newly created doctor",
+                        "schema": {
+                            "$ref": "#/definitions/Doctor"
+                        }
+                    }
                 }
+            }
+        },
+        "/doctor/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "required": true
+                    }
+                ],
+                "summary": "Get single doctor",
+                "description": "Get doctor by id",
+                "responses": {
+                    "200": {
+                        "description": "Single doctor",
+                        "schema": {
+                            "$ref": "#/definitions/Doctor"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "required": true
+                    }
+                ],
+                "summary": "Delete doctor",
+                "description": "Delete doctor by id",
+                "responses": {
+                    "200": {
+                        "description": "Single doctor",
+                        "schema": {
+                            "$ref": "#/definitions/Doctor"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "required": true
+                    },
+                    {
+                        "name": "doctor",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/NewDoctor"
+                        }
+                    }
+                ],
+                "summary": "Update doctor",
+                "description": "Update doctor for a given id",
+                "responses": {
+                    "200": {
+                        "description": "Update doctor",
+                        "schema": {
+                            "$ref": "#/definitions/Doctor"
+                        }
+                    }
+                }
+            }
+        },
+        "/patients": {
+            "get": {
+                "summary": "Get all patients",
+                "description": "Retrieves the list of patients",
+                "responses": {
+                    "200": {
+                        "description": "The list of patients",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Patient"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/patient": {
+            "post": {
+                "summary": "Create a patient",
+                "parameters": [
+                    {
+                        "name": "patient",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/NewPatient"
+                        }
+                    }
+                ],
+                "description": "Creates a single patient",
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The newly created patient",
+                        "schema": {
+                            "$ref": "#/definitions/Patient"
+                        }
+                    }
+                }
+            }
+        },
+        "/patient/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "required": true
+                    }
+                ],
+                "summary": "Get single patient",
+                "description": "Get patient by id",
+                "responses": {
+                    "200": {
+                        "description": "Single patient",
+                        "schema": {
+                            "$ref": "#/definitions/Patient"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "required": true
+                    }
+                ],
+                "summary": "Delete patient",
+                "description": "Delete patient by id",
+                "responses": {
+                    "200": {
+                        "description": "Single patient",
+                        "schema": {
+                            "$ref": "#/definitions/Patient"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "required": true
+                    },
+                    {
+                        "name": "patient",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/NewPatient"
+                        }
+                    }
+                ],
+                "summary": "Update patient",
+                "description": "Update patient for a given id",
+                "responses": {
+                    "200": {
+                        "description": "Update patient",
+                        "schema": {
+                            "$ref": "#/definitions/Patient"
+                        }
+                    }
+                }
+            }
+        },
+        "/visits": {
+            "get": {
+                "summary": "Get all visits",
+                "description": "Retrieves list of visits",
+                "responses": {
+                    "200": {
+                        "description": "The list of visits",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Visit"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/visits/patient/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "required": true
+                    }
+                ],
+                "summary": "Get patient visits",
+                "description": "Retrieves list of visits by patient",
+                "responses": {
+                    "200": {
+                        "description": "The list of visits by patient",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Visit"
+                            }
+                        }
+                    }
                 }
             }
         }
     },
-    "/visits": {
-      "get": {
-        "summary": "Get all visits",
-        "description": "Retrieves list of visits",
-        "responses": {
-          "200": {
-            "description": "The list of visits",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Visit"
-              }
+    "definitions": {
+        "Doctor": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
             }
-          }
-        }
-      }
-    },
-    "/visits/patient/{id}": {
-      "get": {
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "integer",
-            "required": true
-          }
-        ],
-        "summary": "Get patient visits",
-        "description": "Retrieves list of visits by patient",
-        "responses": {
-          "200": {
-            "description": "The list of visits by patient",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Visit"
-              }
+        },
+        "NewDoctor": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
             }
-          }
+        },
+        "Patient": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "NewPatient": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "Visit": {
+            "type": "object",
+            "properties": {
+                "doctorId": {
+                    "type": "integer"
+                },
+                "patientId": {
+                    "type": "integer"
+                },
+                "date": {
+                    "type": "string"
+                }
+            }
         }
-      }
     }
-  },
-  "definitions": {
-    "Doctor": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer"
-        },
-        "name": {
-          "type": "string"
-        }
-      }
-    },
-    "NewDoctor": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        }
-      }
-    },
-    "Visit": {
-      "type": "object",
-      "properties": {
-        "doctorId": {
-          "type": "integer"
-        },
-        "patientId": {
-          "type": "integer"
-        },
-        "date": {
-          "type": "string"
-        }
-      }
-    }
-  }
 }

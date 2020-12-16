@@ -38,7 +38,7 @@ app.get('/api/v1/doctor/:id',(req,res) => {
     return res.json(doctor);
 });
 
-app.post('/api/v1/doctors', (req,res) => {
+app.post('/api/v1/doctor', (req,res) => {
     if(!req.body.name)  {
         return res.status(400).json({error: 'Doctor needs a new Parameter.'});
     }
@@ -49,6 +49,43 @@ app.post('/api/v1/doctors', (req,res) => {
     data.doctors.push(doctor);
     res.status(201).json(doctor);   // 201 status code means resource created
 
+});
+
+app.patch('/api/v1/doctor/:id',(req,res) => {
+    const docId = req.params.id;
+    if(isNaN(req.params.id)) {
+        return res.status(400).json({error: "Invalid Id."})
+    }
+    const doctor = data.doctors.find(doctor => (docId==doctor.id));
+    //console.log('Doctor: ',doctor);
+    //console.log('Doctors: ',data.doctors);
+    if(!doctor) {
+        return res.status(404).json({error: "Id not found."})
+    } else {
+        doctor.name=req.body.name;
+        res.status(201).json(doctor);
+    }
+});
+
+app.delete('/api/v1/doctor/:id',(req,res) => {
+    const docId = req.params.id;
+    if(isNaN(req.params.id)) {
+        return res.status(400).json({error: "Invalid Id."})
+    }
+    const doctor = data.doctors.find(doctor => (docId==doctor.id));
+    //console.log('Doctor: ',doctor);
+    //console.log('Doctors: ',data.doctors);
+    if(!doctor) {
+        return res.status(404).json({error: "Id not found."})
+    } else {
+        var idx = data.doctors.findIndex(doctor => {
+            console.log('doctor.id: ',doctor.id,' docId: ',docId);
+            return (doctor.id==docId);
+        })
+        console.log('findIndex - data.doctors.findIndex(doctor => doctor.id===docId): ', idx,' docId: ', docId);
+        data.doctors.splice(data.doctors.findIndex(doctor => (doctor.id==docId)),1);
+        res.status(201).json(data.doctors);
+    }
 });
 
 app.get('/api/v1/patients',(req,res) => res.json(data.patients));
@@ -64,7 +101,7 @@ app.get('/api/v1/patient/:id',(req,res) => {
     return res.json(patient);
 });
 
-app.post('/api/v1/patients', (req,res) => {
+app.post('/api/v1/patient', (req,res) => {
     if(!req.body.name)  {
         return res.status(400).json({error: 'Patient needs a new Parameter.'});
     }
@@ -75,6 +112,43 @@ app.post('/api/v1/patients', (req,res) => {
     data.patients.push(patient);
     res.status(201).json(patient);   // 201 status code means resource created
 
+});
+
+app.patch('/api/v1/patient/:id',(req,res) => {
+    const patId = req.params.id;
+    if(isNaN(req.params.id)) {
+        return res.status(400).json({error: "Invalid Id."})
+    }
+    const patient = data.patients.find(patient => (patId==patient.id));
+    //console.log('Patient: ',patient);
+    //console.log('Patients: ',data.patients);
+    if(!patient) {
+        return res.status(404).json({error: "Id not found."})
+    } else {
+        patient.name=req.body.name;
+        res.status(201).json(patient);
+    }
+});
+
+app.delete('/api/v1/patient/:id',(req,res) => {
+    const patId = req.params.id;
+    if(isNaN(req.params.id)) {
+        return res.status(400).json({error: "Invalid Id."})
+    }
+    const patient = data.patients.find(patient => (patId==patient.id));
+    //console.log('Patient: ',patient);
+    //console.log('Patients: ',data.patients);
+    if(!patient) {
+        return res.status(404).json({error: "Id not found."})
+    } else {
+        var idx = data.patients.findIndex(patient => {
+            //console.log('patient.id: ',patient.id,' docId: ',patId);
+            return (patient.id==patId);
+        })
+        //console.log('findIndex - data.patients.findIndex(patient => patient.id===docId): ', idx,' patId: ', patId);
+        data.patients.splice(data.patients.findIndex(patient => (patient.id==patId)),1);
+        res.status(201).json(data.patients);
+    }
 });
 
 // Visits
