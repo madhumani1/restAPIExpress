@@ -279,6 +279,45 @@
                     }
                 }
             }
+        },
+        "/doctorDetails": {
+            "get": {
+                "summary": "Get details of all doctors",
+                "description": "Retrieves id, dob and address of all doctors",
+                "responses": {
+                    "200": {
+                        "description": "The list of doctors details",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/DoctorDetails"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/doctorDetail/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "required": true
+                    }
+                ],
+                "summary": "Get details of a single doctor",
+                "description": "Get id, dob and address of a single doctor",
+                "responses": {
+                    "200": {
+                        "description": "Single doctor details",
+                        "schema": {
+                            "$ref": "#/definitions/DoctorDetails"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -330,6 +369,23 @@
                     "type": "integer"
                 },
                 "date": {
+                    "type": "string"
+                }
+            }
+        },
+        "DoctorDetails": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "dob": {
+                    "type": "string"
+                },
+                "speciality": {
+                    "type": "string"
+                },
+                "address": {
                     "type": "string"
                 }
             }

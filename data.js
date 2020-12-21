@@ -88,6 +88,30 @@ const data = {
         doctorId: 4,
         patientId: 6,
         date: 'Feb 12, 2020'
+    },],
+    doctorDetails : [ {
+        id: 1,
+        dob: "Jan-02-1986",
+        speciality: "CEO",
+        address: "Kitchener"
+    },
+    {
+        id: 2,
+        dob: "Jan-25-1984",
+        speciality: "VP",
+        address: "York"
+    },
+    {
+        id: 3,
+        dob: "Jan-18-1985",
+        speciality: "Director",
+        address: "Ghaziabad"
+    },
+    {
+        id: 4,
+        dob: "Dec-13-1982",
+        speciality: "Manager",
+        address: "Rishikesh"
     },]
 };
 

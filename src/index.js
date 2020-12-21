@@ -243,6 +243,21 @@ app.get("/api/v1/visits", (req, res) => {
   return res.json(visits);
 });
 
+app.get('/api/v1/doctorDetails',(req,res) => res.json(data.doctorDetails));
+
+app.get('/api/v1/doctorDetail/:id',(req,res) => {
+    const id = parseInt(req.params.id);
+    console.log('id: ',id);
+    if(isNaN(req.params.id))    {
+        return res.status(400).json({error: "Invalid Id."});
+    }
+    const doctorDetail = data.doctorDetails.find((doctorDetail) => doctorDetail.id==id);
+    if(!doctorDetail)    {
+        return res.status(404).json({error: "Doctor not found."});
+    }
+    return res.json(doctorDetail);
+});
+
 app.listen(port, () => {
     console.log(`listening to port ${port}`);
 });
